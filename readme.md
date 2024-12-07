@@ -12,32 +12,6 @@ Welcome to **Fruity Frenzy: Basket Bonanza**, a fun and engaging console-based g
 ![intro](https://github.com/dundd2/Fruit-Basket-Sorter-Game/blob/main/Screenshot/intro.png)  
 ![endgame](https://github.com/dundd2/Fruit-Basket-Sorter-Game/blob/main/Screenshot/endgame.png)
 
-## 🎯 What This Program Does
-### Core Gameplay Features
-
--   **Dynamic Fruit System**: Catch various fruits like apples 🍎, bananas 🍌, oranges 🍊, grapes 🍇, watermelons 🍉, and strawberries 🍓, each with unique points and behaviors.
--   **Special Fruits**: Encounter special fruits 🌟 that offer extra points and unique challenges.
--   **Basket System**: Use different baskets to catch fruits, each with specific widths and behaviours.
--   **Level Progression**: Advance through levels with increasing difficulty, speed, and complexity.
--   **Power-ups**: Collect power-ups like Double Points, Slow Motion, Extra Life, Magnet, Score Boost, and Freeze Time to enhance your gameplay.
--   **Game Effects**: Experience various effects like Speed Boost, Shield, Double Score, Magnet, Invisibility, and Color Shift.
--   **Achievements**: Unlock achievements as you play, adding a layer of challenge and reward.
--   **High Scores**: Compete with yourself and others by aiming for the highest score.
--   **Game Statistics**: Track your progress with detailed stats, including total fruits caught, special fruits caught, highest combo, and more.
--   **Shop System**: Earn coins and spend them in the shop to unlock new items, baskets, and backgrounds.
--   **Challenges**: Take on various challenges like Speed Challenge, Combo Challenge, Accuracy Challenge, Survival Challenge, and Color Challenge.
--   **Particles and Animations**: Enjoy visually appealing particles and animations that make the game more dynamic and fun.
--   **Daily Streaks and Bonuses**: Keep playing daily to earn streaks and bonuses.
--   **Responsive Controls**: Use simple keyboard controls to move your baskets and interact with the game.
--   **Pause and Resume**: Pause the game at any time and resume when you're ready.
-
-### User Experience
-
--   **Colorful Text-Based Interface**: Engaging and visually appealing text-based graphics with color-coded elements.
--   **Immersive Gameplay**: Dynamic game elements, including screen shake and visual effects, for a more immersive experience.
--   **Intuitive Controls**: Simple and responsive controls for easy gameplay.
--   **Detailed Feedback**: Clear and concise feedback on your performance with detailed game stats and messages.
-
 ## 💻 Installation Guide (Linux Only)
 1. **Clone the repository**:
     ```bash
@@ -127,6 +101,33 @@ Welcome to **Fruity Frenzy: Basket Bonanza**, a fun and engaging console-based g
 | Survival Challenge | Survive for 120 seconds                      | 120    |
 | Color Challenge    | Catch 20 red fruits in a row                  | 20     |
 
+
+## 🎯 What This Program Does
+### Core Gameplay Features
+
+-   **Dynamic Fruit System**: Catch various fruits like apples 🍎, bananas 🍌, oranges 🍊, grapes 🍇, watermelons 🍉, and strawberries 🍓, each with unique points and behaviors.
+-   **Special Fruits**: Encounter special fruits 🌟 that offer extra points and unique challenges.
+-   **Basket System**: Use different baskets to catch fruits, each with specific widths and behaviours.
+-   **Level Progression**: Advance through levels with increasing difficulty, speed, and complexity.
+-   **Power-ups**: Collect power-ups like Double Points, Slow Motion, Extra Life, Magnet, Score Boost, and Freeze Time to enhance your gameplay.
+-   **Game Effects**: Experience various effects like Speed Boost, Shield, Double Score, Magnet, Invisibility, and Color Shift.
+-   **Achievements**: Unlock achievements as you play, adding a layer of challenge and reward.
+-   **High Scores**: Compete with yourself and others by aiming for the highest score.
+-   **Game Statistics**: Track your progress with detailed stats, including total fruits caught, special fruits caught, highest combo, and more.
+-   **Shop System**: Earn coins and spend them in the shop to unlock new items, baskets, and backgrounds.
+-   **Challenges**: Take on various challenges like Speed Challenge, Combo Challenge, Accuracy Challenge, Survival Challenge, and Color Challenge.
+-   **Particles and Animations**: Enjoy visually appealing particles and animations that make the game more dynamic and fun.
+-   **Daily Streaks and Bonuses**: Keep playing daily to earn streaks and bonuses.
+-   **Responsive Controls**: Use simple keyboard controls to move your baskets and interact with the game.
+-   **Pause and Resume**: Pause the game at any time and resume when you're ready.
+
+### User Experience
+
+-   **Colorful Text-Based Interface**: Engaging and visually appealing text-based graphics with color-coded elements.
+-   **Immersive Gameplay**: Dynamic game elements, including screen shake and visual effects, for a more immersive experience.
+-   **Intuitive Controls**: Simple and responsive controls for easy gameplay.
+-   **Detailed Feedback**: Clear and concise feedback on your performance with detailed game stats and messages.
+  
 ## 💫 Technical Skills Demonstrated
 
 ### Programming
