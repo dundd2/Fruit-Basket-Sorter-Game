@@ -679,7 +679,7 @@ void Game::drawGame() {
 
 void Game::drawMenu() {
     clearScreen();
-    printCenteredText("Fruit Basket Game", SCREEN_HEIGHT / 2 - 10);
+    printCenteredText("Fruity-Frenzy-Basket-Bonanza", SCREEN_HEIGHT / 2 - 10);
     printCenteredText("1. Start Game", SCREEN_HEIGHT / 2 - 4);
     printCenteredText("2. Shop", SCREEN_HEIGHT / 2 - 2);
     printCenteredText("3. Instructions", SCREEN_HEIGHT / 2);
