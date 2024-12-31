@@ -12,6 +12,8 @@ Welcome to **Fruity Frenzy: Basket Bonanza**, a fun and engaging console-based g
 ![endgame](https://github.com/dundd2/Fruit-Basket-Sorter-Game/blob/main/Screenshot/endgame.png)
 
 ## 💻 Installation Guide (Linux Only)
+
+### Method 1: Build from Source
 1. **Clone the repository**:
     ```bash
     git clone https://github.com/dundd2/Fruity-Frenzy-Basket-Bonanza.git
@@ -24,6 +26,17 @@ Welcome to **Fruity Frenzy: Basket Bonanza**, a fun and engaging console-based g
 3. **Run the application**:
     ```bash
     ./FruityFrenzy
+    ```
+
+### Method 2: Install via .deb Package
+1. **Download the latest .deb package** from the GitHub releases page
+2. **Install using dpkg**:
+    ```bash
+    sudo dpkg -i fruity-game_1.0.0_amd64.deb
+    ```
+3. **Run the game**:
+    ```bash
+    fruity-game
     ```
 
 ## 💡 Usage Instructions

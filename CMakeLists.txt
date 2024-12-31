@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(Fruity-Frenzy-Basket-Bonanza VERSION 1.0.0)  # 修改這行，加入版本訊息
+project(Fruity-Frenzy-Basket-Bonanza VERSION 1.0.0)  
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -33,7 +33,6 @@ set(CPACK_PACKAGE_CONTACT "dundd2 <dundd2@github.com>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Fruity Frenzy Basket Bonanza Game")
 set(CPACK_PACKAGE_VENDOR "dundd2")
 
-# 新增 Debian 特定設定
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "dundd2 <dundd2@github.com>")  # 必要
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "A fun fruit catching game with multiple levels and challenges\n This game features:\n * Multiple fruit types\n * Power-ups\n * Achievement system\n * High score tracking")
 set(CPACK_DEBIAN_PACKAGE_SECTION "games")
