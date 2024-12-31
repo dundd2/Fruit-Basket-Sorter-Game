@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <vector>
 #include <string>
@@ -18,8 +17,8 @@
 #include <random>
 
 // --- Constants ---
-const int SCREEN_WIDTH = 160;
-const int SCREEN_HEIGHT = 40;
+const int SCREEN_WIDTH = 80;  // 從160改為80
+const int SCREEN_HEIGHT = 25; // 從40改為25
 const std::string HIGHSCORE_FILE = "highscores.txt";
 const int MAX_LEVEL = 200;
 const int MAX_LIVES = 5;
@@ -273,6 +272,7 @@ private:
     void printCenteredText(const std::string& text, int y);
     void drawScoreBoard();
     void displayShop();
+    void drawSettings(); // 新增遊戲設定選項
 
     // Game Logic Functions
     void spawnFruit();
@@ -511,13 +511,13 @@ int Game::generateRandomColor() {
 
 void Game::initializeFruits() {
     fruits.clear();
-    fruits.emplace_back(FruitType::APPLE, "🍎", 10, "Apple");
-    fruits.emplace_back(FruitType::BANANA, "🍌", 15, "Banana");
-    fruits.emplace_back(FruitType::ORANGE, "🍊", 12, "Orange");
-    fruits.emplace_back(FruitType::GRAPE, "🍇", 8, "Grape");
-    fruits.emplace_back(FruitType::WATERMELON, "🍉", 20, "Watermelon");
-    fruits.emplace_back(FruitType::STRAWBERRY, "🍓", 18, "Strawberry");
-    fruits.emplace_back(FruitType::SPECIAL, "🌟", 30, "Star");
+    fruits.emplace_back(FruitType::APPLE, "@", 10, "Apple");
+    fruits.emplace_back(FruitType::BANANA, "B", 15, "Banana");
+    fruits.emplace_back(FruitType::ORANGE, "O", 12, "Orange");
+    fruits.emplace_back(FruitType::GRAPE, "G", 8, "Grape");
+    fruits.emplace_back(FruitType::WATERMELON, "W", 20, "Watermelon");
+    fruits.emplace_back(FruitType::STRAWBERRY, "S", 18, "Strawberry");
+    fruits.emplace_back(FruitType::SPECIAL, "*", 30, "Star");
 }
 
 void Game::initializeBaskets() {
@@ -546,17 +546,17 @@ void Game::initializeAchievements() {
 }
 
 void Game::initializeAnimations() {
-    animations = { "✨", "💫", "🌟", "💥", "🔥", "🌪️", "🌈", "⚡️", "🚀", "🍄", "🎉", "🎊" };
+    animations = { "*", "+", "!", ".", "^", "~", "=", "-", ">", "o", "&", "$" };
 }
 
 void Game::initializeEffects() {
     activeEffects.clear(); // Ensure the vector is empty before initializing
-    activeEffects.emplace_back(GameEffectType::SPEED_BOOST, 0, "💨");
-    activeEffects.emplace_back(GameEffectType::SHIELD, 0, "🛡️");
-    activeEffects.emplace_back(GameEffectType::DOUBLE_SCORE, 0, "2️⃣X");
-    activeEffects.emplace_back(GameEffectType::MAGNET, 0, "🧲");
-    activeEffects.emplace_back(GameEffectType::INVISIBILITY, 0, "👻");
-    activeEffects.emplace_back(GameEffectType::COLOR_SHIFT, 0, "🎨");
+    activeEffects.emplace_back(GameEffectType::SPEED_BOOST, 0, ">");
+    activeEffects.emplace_back(GameEffectType::SHIELD, 0, "#");
+    activeEffects.emplace_back(GameEffectType::DOUBLE_SCORE, 0, "2x");
+    activeEffects.emplace_back(GameEffectType::MAGNET, 0, "M");
+    activeEffects.emplace_back(GameEffectType::INVISIBILITY, 0, "I");
+    activeEffects.emplace_back(GameEffectType::COLOR_SHIFT, 0, "C");
 }
 
 void Game::loadHighScores() {
@@ -586,9 +586,9 @@ void Game::saveHighScore(int score) {
 
 void Game::drawGameBorder() {
     std::cout << colorCode(4); // Blue color for the border
-    std::cout << "╔";
-    for (int i = 0; i < SCREEN_WIDTH; ++i) std::cout << "═";
-    std::cout << "╗" << "\n";
+    std::cout << "+";
+    for (int i = 0; i < SCREEN_WIDTH; ++i) std::cout << "-";
+    std::cout << "+" << "\n";
     std::cout << colorCode(7); // Reset color
 }
 
@@ -604,77 +604,34 @@ void Game::drawCombo() {
 
 void Game::drawGame() {
     clearScreen();
-    applyScreenShake(); // Apply screen shake effect if active
-    drawGameBorder();
-    drawGameStats();
-    std::cout << "\n";
-
-    // Player information
-    std::cout << colorCode(1) << "Player: " << playerName << " | Score: " << score << " | Lives: ";
-    for (int i = 0; i < lives; ++i) std::cout << "❤️ ";
-    std::cout << " | Level: " << level << " | Difficulty: " << DIFFICULTY_LEVELS[difficultyLevel] << colorCode(7) << "\n";
-
-    drawCombo();
-    drawEffects();
-    drawProgressBar();
-    drawGameMessages();
-    drawPowerupStatus();
-    std::cout << "\n";
-
-    // Game area
-    for (int y = 0; y < SCREEN_HEIGHT; ++y) {
-        std::cout << colorCode(4) << "║" << colorCode(7); // Blue border
-        for (int x = 0; x < SCREEN_WIDTH; ++x) {
-            // Check for particles
-            bool particleDrawn = false;
-            for (const auto& particle : particles) {
-                if (particle.x == x && particle.y == y) {
-                    std::cout << colorCode(particle.color) << particle.symbol << colorCode(7);
-                    particleDrawn = true;
-                    break;
-                }
-            }
-            if (particleDrawn) continue;
-
-            // Check for floating texts
-            bool textDrawn = false;
-            for (const auto& text : floatingTexts) {
-                if (x >= static_cast<int>(text.first.length() / 2) && x < SCREEN_WIDTH - static_cast<int>(text.first.length() / 2) && y == 10) { // Adjust y as needed
-                    std::cout << text.first;
-                    textDrawn = true;
-                    break;
-                }
-            }
-            if (textDrawn) continue;
-
-            // Draw game elements
-            if (currentFruit && y == fruitY && x == fruitX) {
-                std::cout << colorCode(1) << currentFruit->symbol << colorCode(7);
-            } else if (y == SCREEN_HEIGHT - 1) {
-                bool isBasket = false;
-                for (const auto& basket : baskets) {
-                    if (x >= basket.x - basket.width / 2 && x <= basket.x + basket.width / 2) {
-                        std::cout << colorCode(2) << basket.symbol << colorCode(7);
-                        isBasket = true;
-                        break;
-                    }
-                }
-                if (!isBasket) std::cout << ' ';
-            } else {
-                std::cout << ' ';
-            }
-        }
-        std::cout << colorCode(4) << "║" << colorCode(7) << "\n"; // Blue border
-    }
     
-    std::cout << colorCode(4); // Blue color for the border
-    std::cout << "╚";
-    for (int i = 0; i < SCREEN_WIDTH; ++i) std::cout << "═";
-    std::cout << "╝" << "\n";
+    // 改進UI佈局 - 更緊湊的頂部資訊
+    std::cout << colorCode(4) << "+";
+    for (int i = 0; i < SCREEN_WIDTH; ++i) std::cout << "-";
+    std::cout << "+\n";
     std::cout << colorCode(7); // Reset color
+    std::cout << "║" << colorCode(7);
+    
+    // 將玩家資訊整合到一行
+    std::string info = "Player: " + playerName + 
+                      " | Score: " + std::to_string(score) + 
+                      " | Lives: ";
+    std::cout << std::setw((SCREEN_WIDTH - info.length())/2) << std::left << info;
+    for(int i = 0; i < lives; i++) std::cout << "<3 ";
+    std::cout << std::string(SCREEN_WIDTH - info.length() - lives*3, ' ') << colorCode(4) << "║\n";
 
-    std::cout << "\n" << colorCode(6) << "Controls: [A/D] Move Baskets, [P] Pause, [Q] Quit" << colorCode(7) << "\n";
-    drawScoreBoard();
+    // 等級和難度整合到一行
+    std::string levelInfo = "Level: " + std::to_string(level) + 
+                           " | Difficulty: " + DIFFICULTY_LEVELS[difficultyLevel];
+    std::cout << "║" << colorCode(7);
+    std::cout << std::setw(SCREEN_WIDTH) << std::left << levelInfo;
+    std::cout << colorCode(4) << "║\n";
+
+    // ...existing game area drawing code...
+
+    // 底部控制提示更簡潔
+    std::string controls = "[A/D] Move [P] Pause [Q] Quit";
+    printCenteredText(controls, 1);
 }
 
 void Game::drawMenu() {
@@ -911,8 +868,8 @@ void Game::checkAchievements() {
                 for (size_t i = 0; i < fruits.size() - 1; ++i){
                     fruitsCollected[static_cast<FruitType>(i)] = false;
                 }
-                for (auto const& [type, num] : fruitsCaughtByType){
-                    fruitsCollected[type] = true;
+                for (const auto& pair : fruitsCaughtByType) {
+                    fruitsCollected[pair.first] = true;
                 }
                 bool allCollected = true;
                 for (size_t i = 0; i < fruits.size() - 1; ++i){
@@ -986,7 +943,7 @@ void Game::updateGameLogic() {
                             } else if (challenge.type == ChallengeType::ACCURACY_CHALLENGE) {
                                 challenge.progress++;
                             } else if (challenge.type == ChallengeType::COLOR_CHALLENGE) {
-                                if (currentFruit->symbol == "🍎") { // Check for red fruit symbol (adjust as needed)
+                                if (currentFruit->symbol == "@") { // Check for red fruit symbol (adjust as needed)
                                     challenge.progress++;
                                 } else {
                                     challenge.progress = 0; // Reset progress if not a red fruit
@@ -1500,7 +1457,7 @@ void Game::run() {
                 currentState = GameState::MENU;
                 break;
             case GameState::SETTINGS:
-                // Draw and handle settings
+                drawSettings();
                 currentState = GameState::MENU;
                 break;
             // ... (Add other cases as needed)
@@ -1513,6 +1470,34 @@ void Game::manageRecentScores() {
     recentScores.push_back(std::make_pair(score, timestamp));
     if (recentScores.size() > 5) {
         recentScores.erase(recentScores.begin());
+    }
+}
+
+void Game::drawSettings() {
+    clearScreen();
+    printCenteredText("Settings", 3);
+    printCenteredText("1. Screen Size: " + std::to_string(SCREEN_WIDTH) + "x" + std::to_string(SCREEN_HEIGHT), 5);
+    printCenteredText("2. Difficulty: " + DIFFICULTY_LEVELS[difficultyLevel], 6);
+    printCenteredText("3. Sound: " + std::string(musicEnabled ? "On" : "Off"), 7);
+    printCenteredText("4. Effects: " + std::string(effectsEnabled ? "On" : "Off"), 8);
+    printCenteredText("5. Back to Menu", 10);
+    
+    std::cout << "\nEnter your choice (1-5): ";
+    char choice = getch();
+    
+    switch(choice) {
+        case '2':
+            difficultyLevel = (difficultyLevel + 1) % DIFFICULTY_LEVELS.size();
+            break;
+        case '3':
+            musicEnabled = !musicEnabled;
+            break;
+        case '4':
+            effectsEnabled = !effectsEnabled;
+            break;
+        case '5':
+        default:
+            break;
     }
 }
 
