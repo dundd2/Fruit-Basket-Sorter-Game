@@ -17,8 +17,8 @@
 #include <random>
 
 // --- Constants ---
-const int SCREEN_WIDTH = 80;  // 從160改為80
-const int SCREEN_HEIGHT = 25; // 從40改為25
+const int SCREEN_WIDTH = 80; 
+const int SCREEN_HEIGHT = 20; 
 const std::string HIGHSCORE_FILE = "highscores.txt";
 const int MAX_LEVEL = 200;
 const int MAX_LIVES = 5;
@@ -511,13 +511,13 @@ int Game::generateRandomColor() {
 
 void Game::initializeFruits() {
     fruits.clear();
-    fruits.emplace_back(FruitType::APPLE, "@", 10, "Apple");
-    fruits.emplace_back(FruitType::BANANA, "B", 15, "Banana");
-    fruits.emplace_back(FruitType::ORANGE, "O", 12, "Orange");
-    fruits.emplace_back(FruitType::GRAPE, "G", 8, "Grape");
-    fruits.emplace_back(FruitType::WATERMELON, "W", 20, "Watermelon");
-    fruits.emplace_back(FruitType::STRAWBERRY, "S", 18, "Strawberry");
-    fruits.emplace_back(FruitType::SPECIAL, "*", 30, "Star");
+    fruits.emplace_back(FruitType::APPLE, "🍎", 10, "Apple");
+    fruits.emplace_back(FruitType::BANANA, "🍌", 15, "Banana");
+    fruits.emplace_back(FruitType::ORANGE, "🍊", 12, "Orange");
+    fruits.emplace_back(FruitType::GRAPE, "🍇", 8, "Grape");
+    fruits.emplace_back(FruitType::WATERMELON, "🍉", 20, "Watermelon");
+    fruits.emplace_back(FruitType::STRAWBERRY, "🍓", 18, "Strawberry");
+    fruits.emplace_back(FruitType::SPECIAL, "🌟", 30, "Star");
 }
 
 void Game::initializeBaskets() {
@@ -550,13 +550,13 @@ void Game::initializeAnimations() {
 }
 
 void Game::initializeEffects() {
-    activeEffects.clear(); // Ensure the vector is empty before initializing
-    activeEffects.emplace_back(GameEffectType::SPEED_BOOST, 0, ">");
-    activeEffects.emplace_back(GameEffectType::SHIELD, 0, "#");
-    activeEffects.emplace_back(GameEffectType::DOUBLE_SCORE, 0, "2x");
-    activeEffects.emplace_back(GameEffectType::MAGNET, 0, "M");
-    activeEffects.emplace_back(GameEffectType::INVISIBILITY, 0, "I");
-    activeEffects.emplace_back(GameEffectType::COLOR_SHIFT, 0, "C");
+    activeEffects.clear();
+    activeEffects.emplace_back(GameEffectType::SPEED_BOOST, 0, "💨");
+    activeEffects.emplace_back(GameEffectType::SHIELD, 0, "🛡️");
+    activeEffects.emplace_back(GameEffectType::DOUBLE_SCORE, 0, "2️⃣X");
+    activeEffects.emplace_back(GameEffectType::MAGNET, 0, "🧲");
+    activeEffects.emplace_back(GameEffectType::INVISIBILITY, 0, "👻");
+    activeEffects.emplace_back(GameEffectType::COLOR_SHIFT, 0, "🎨");
 }
 
 void Game::loadHighScores() {
@@ -605,31 +605,75 @@ void Game::drawCombo() {
 void Game::drawGame() {
     clearScreen();
     
-    // 改進UI佈局 - 更緊湊的頂部資訊
-    std::cout << colorCode(4) << "+";
-    for (int i = 0; i < SCREEN_WIDTH; ++i) std::cout << "-";
-    std::cout << "+\n";
-    std::cout << colorCode(7); // Reset color
-    std::cout << "║" << colorCode(7);
+    // 重新設計UI佈局
+    std::cout << colorCode(4) << "+" << std::string(SCREEN_WIDTH, '-') << "+\n" << colorCode(7);
     
-    // 將玩家資訊整合到一行
+    // 第一行：玩家資訊
     std::string info = "Player: " + playerName + 
                       " | Score: " + std::to_string(score) + 
                       " | Lives: ";
-    std::cout << std::setw((SCREEN_WIDTH - info.length())/2) << std::left << info;
-    for(int i = 0; i < lives; i++) std::cout << "<3 ";
+    std::cout << colorCode(4) << "║" << colorCode(7);
+    std::cout << std::left << info;
+    for(int i = 0; i < lives; i++) {
+        std::cout << "<3 ";
+    }
     std::cout << std::string(SCREEN_WIDTH - info.length() - lives*3, ' ') << colorCode(4) << "║\n";
 
-    // 等級和難度整合到一行
+    // 第二行：等級和難度
     std::string levelInfo = "Level: " + std::to_string(level) + 
                            " | Difficulty: " + DIFFICULTY_LEVELS[difficultyLevel];
     std::cout << "║" << colorCode(7);
-    std::cout << std::setw(SCREEN_WIDTH) << std::left << levelInfo;
-    std::cout << colorCode(4) << "║\n";
+    std::cout << std::left << levelInfo;
+    std::cout << std::string(SCREEN_WIDTH - levelInfo.length(), ' ') << colorCode(4) << "║\n";
 
-    // ...existing game area drawing code...
+    // 遊戲區域邊框
+    std::cout << "║" << std::string(SCREEN_WIDTH, ' ') << "║\n";
+    
+    // 繪製遊戲內容
+    for (int y = 0; y < SCREEN_HEIGHT - 6; y++) {
+        std::cout << colorCode(4) << "║" << colorCode(7);
+        for (int x = 0; x < SCREEN_WIDTH; x++) {
+            bool drawn = false;
+            
+            // 繪製水果
+            if (currentFruit && y == fruitY && x == fruitX) {
+                std::cout << currentFruit->symbol;
+                drawn = true;
+            }
+            
+            // 繪製籃子
+            for (const auto& basket : baskets) {
+                if (y == SCREEN_HEIGHT - 7 && 
+                    x >= basket.x - basket.width/2 && 
+                    x <= basket.x + basket.width/2) {
+                    std::cout << basket.symbol;
+                    drawn = true;
+                    break;
+                }
+            }
+            
+            // 繪製粒子效果
+            if (!drawn) {
+                bool particleDrawn = false;
+                for (const auto& particle : particles) {
+                    if (particle.x == x && particle.y == y) {
+                        std::cout << colorCode(particle.color) << particle.symbol << colorCode(7);
+                        particleDrawn = true;
+                        break;
+                    }
+                }
+                if (!particleDrawn) {
+                    std::cout << " ";
+                }
+            }
+        }
+        std::cout << colorCode(4) << "║" << colorCode(7) << "\n";
+    }
 
-    // 底部控制提示更簡潔
+    // 底部邊框
+    std::cout << colorCode(4) << "+" << std::string(SCREEN_WIDTH, '-') << "+\n" << colorCode(7);
+
+    // 控制提示
     std::string controls = "[A/D] Move [P] Pause [Q] Quit";
     printCenteredText(controls, 1);
 }
@@ -1077,7 +1121,18 @@ void Game::applyPowerup() {
             std::uniform_int_distribution<> powerupDistrib(0, static_cast<int>(PowerupType::FREEZE_TIME));
             currentPowerup.type = static_cast<PowerupType>(powerupDistrib(randomEngine));
             currentPowerup.duration = 5;
-            currentPowerup.description = "Power-up: " + powerupTypeToString(currentPowerup.type);
+            
+            // 更新powerup符號
+            switch(currentPowerup.type) {
+                case PowerupType::DOUBLE_POINTS: currentPowerup.description = "2️⃣X"; break;
+                case PowerupType::SLOW_MOTION: currentPowerup.description = "⏱️"; break;
+                case PowerupType::EXTRA_LIFE: currentPowerup.description = "❤️"; break;
+                case PowerupType::MAGNET: currentPowerup.description = "🧲"; break;
+                case PowerupType::SCORE_BOOST: currentPowerup.description = "💯"; break;
+                case PowerupType::FREEZE_TIME: currentPowerup.description = "❄️"; break;
+            }
+            
+            currentPowerup.description = "Power-up: " + currentPowerup.description + " " + powerupTypeToString(currentPowerup.type);
             stats.totalPowerUpsCollected++;
             addGameMessage(currentPowerup.description);
         }
@@ -1114,7 +1169,23 @@ void Game::updateAnimation() {
 }
 
 void Game::addGameMessage(const std::string& message) {
-    gameMessages.insert(gameMessages.begin(), message);
+    std::string coloredMessage = message;
+    if (message.find("Achievement") != std::string::npos) {
+        coloredMessage = "🏆 " + message;
+    } else if (message.find("Level Up") != std::string::npos) {
+        coloredMessage = "⭐ " + message;
+    } else if (message.find("Challenge") != std::string::npos) {
+        coloredMessage = "🎯 " + message;
+    } else if (message.find("Power-up") != std::string::npos) {
+        // Power-up訊息已包含emoji
+        coloredMessage = message;
+    } else if (message.find("Missed") != std::string::npos) {
+        coloredMessage = "💔 " + message;
+    } else if (message.find("Bonus") != std::string::npos) {
+        coloredMessage = "🎁 " + message;
+    }
+    
+    gameMessages.insert(gameMessages.begin(), coloredMessage);
     if (gameMessages.size() > 5) gameMessages.pop_back();
 }
 

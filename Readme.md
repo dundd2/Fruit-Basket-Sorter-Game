@@ -7,8 +7,7 @@ Welcome to **Fruity Frenzy: Basket Bonanza**, a fun and engaging console-based g
 **Important Note**: This program is designed to run exclusively on **Linux** systems due to its use of POSIX-specific functions and ANSI escape codes that are not supported on Windows.
 
 ## 🎬 Demo
-![menu](https://github.com/dundd2/Fruit-Basket-Sorter-Game/blob/main/Screenshot/menu.gif)  
-![intro](https://github.com/dundd2/Fruit-Basket-Sorter-Game/blob/main/Screenshot/intro.png)  
+![gameplay v1.0](https://github.com/dundd2/Fruit-Basket-Sorter-Game/blob/main/Screenshot/Gameplay.gif)  
 ![endgame](https://github.com/dundd2/Fruit-Basket-Sorter-Game/blob/main/Screenshot/endgame.png)
 
 ## 💻 Installation Guide (Linux Only)
